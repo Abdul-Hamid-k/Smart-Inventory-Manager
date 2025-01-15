@@ -48,5 +48,45 @@ const registerUser = async (req, res) => {
   res.status(201).json({ user: newUser, token, message: 'User Created' });
 }
 
+const loginUser = async (req, res) => {
+  // --- ACTIONS ---
+  // get email, password from req body
+  // check if any field is empty
+  // check if user exist
+  // check validation errors
+  // check credentials and find user
+  // --- END OF ACTIONS ---
 
-export { registerUser }
+  const { email, password } = req.body
+  // console.log(email, password)
+
+  // check if any field is empty
+  if (!email || !password) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
+
+  // check if user exist
+  const user = await UserModel.findOne({ email }).select('+password')
+  if (!user) {
+    return res.status(401).json({ message: 'Invalid credentials' });
+  }
+
+  // check validation errors
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ message: 'Input value Error', errors: errors.array() });
+  }
+
+  // check credentials and find user
+  const isMatch = await user.comparePassword(password);
+  if (!isMatch) {
+    return res.status(401).json({ message: 'Invalid Credentials' })
+  }
+
+  const token = user.generateAuthToken()
+  res.status(200).json({ user, token, message: 'User Login' })
+}
+
+
+
+export { registerUser, loginUser }
