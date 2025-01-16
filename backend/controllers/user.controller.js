@@ -74,7 +74,7 @@ const loginUser = async (req, res) => {
   // check validation errors
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    return res.status(400).json({ message: 'Input value Error', errors: errors.array() });
+    return res.status(400).json({ message: 'Invalid Credentials', errors: errors.array() });
   }
 
   // check credentials and find user
