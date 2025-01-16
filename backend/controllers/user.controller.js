@@ -42,7 +42,7 @@ const registerUser = async (req, res) => {
 
   const hashedPassword = await UserModel.hashPassword(password);
   // console.log('hashedpassword', hashedPassword)
-  const newUser = await UserModel.create({ firstname, lastname, email, password: hashedPassword })
+  const newUser = await UserModel.create({ firstname, lastname, email: email.toLowerCase(), password: hashedPassword })
   const token = newUser.generateAuthToken()
 
   res.status(201).json({ user: newUser, token, message: 'User Created' });
@@ -66,7 +66,7 @@ const loginUser = async (req, res) => {
   }
 
   // check if user exist
-  const user = await UserModel.findOne({ email }).select('+password')
+  const user = await UserModel.findOne({ email: email.toLowerCase() }).select('+password')
   if (!user) {
     return res.status(401).json({ message: 'Invalid credentials' });
   }
