@@ -5,4 +5,5 @@
 html,
 body {
 	background-color: #f0ead250;
+	min-height: 100vh;
 }
