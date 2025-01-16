@@ -1,8 +1,52 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { LoginImg } from '../assets/assets'
+import axios from 'axios'
 
 const Register = () => {
+  const [firstname, setFirstname] = useState('')
+  const [lastname, setLastname] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const [user, setUser] = useState({})
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    // console.log('Form submitted')
+    // console.log(firstname, lastname, email, password, confirmPassword)
+
+    const userData = {
+      firstname,
+      lastname,
+      email,
+      password,
+      confirmPassword,
+    }
+
+    axios.post('http://localhost:3000/register', userData).
+      then(response => {
+        localStorage.setItem('token', response.data.token);
+        setUser(response.data.user);
+        console.log(response)
+      }).
+      catch(error => {
+        // console.error('error: ', error)
+        setErrorMessage(error.response.data.message)
+      });
+
+    // clear form inputs
+    setFirstname('')
+    setLastname('')
+    setEmail('')
+    setPassword('')
+    setConfirmPassword('')
+    setErrors('')
+
+  }
+
   return (
     <div className=" flex justify-center sm:justify-evenly gap-10 items-center min-h-[calc(100vh-5.5rem)] ">
       {/* 5.5rem => 2rem padding bottom and 3.5 rem header height */}
@@ -12,39 +56,58 @@ const Register = () => {
       <div className='w-full sm:w-2/3 md:w-2/5 lg:w-1/3  mx-3 h-fit py-10 px-3 sm:px-4 rounded-lg bg-white'>
         <h2 className='text-3xl font-medium text-center mb-12 text-primary'>Register</h2>
 
-        <form className='flex flex-col gap-3 text-sm'>
+        <form
+          onSubmit={handleSubmit}
+          className='flex flex-col gap-3 text-sm'>
 
           <div className="flex justify-between gap-3">
+            {/* firstname */}
             <input
               className='w-1/2 px-3 py-2 outline-none focus:border-primary border-[0.05rem] rounded-lg bg-transparent border-gray-300 active:border-primary/50 text-black placeholder:text-gray-500'
               type='string'
               name='firstname'
+              value={firstname}
+              onChange={(e) => setFirstname(e.target.value)}
               required placeholder='First Name' />
 
+            {/* lastname */}
             <input
               className='w-1/2 px-3 py-2 outline-none focus:border-primary border-[0.05rem] rounded-lg bg-transparent border-gray-300 active:border-primary/50 text-black placeholder:text-gray-500'
               type='string'
               name='lastname'
+              value={lastname}
+              onChange={(e) => setLastname(e.target.value)}
               required placeholder='Last Name' />
           </div>
+
+          {/* email */}
           <input
             className='w-full px-3 py-2 outline-none focus:border-primary border-[0.05rem] rounded-lg bg-transparent border-gray-300 active:border-primary/50 text-black placeholder:text-gray-500'
             type='email'
             name='email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required placeholder='Email' />
 
+          {/* password */}
           <input
             className='w-full px-3 py-2 outline-none focus:border-primary border-[0.05rem] rounded-lg bg-transparent border-gray-300 active:border-primary/50 text-black placeholder:text-gray-500'
             type='password'
             name='password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required placeholder='Password' />
 
+          {/* confirm password */}
           <input
             className='w-full px-3 py-2 outline-none focus:border-primary border-[0.05rem] rounded-lg bg-transparent border-gray-300 active:border-primary/50 text-black placeholder:text-gray-500'
-            type='confirmPassword'
+            type='password'
             name='confirmPassword'
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             required placeholder='Confirm Password' />
 
+          <p className='text-red-400'>{errorMessage}</p>
 
           <button type='submit'
             className='mt-10 w-auto rounded-lg text-white bg-primary px-5 py-3 text-lg font-medium mx-4'>
