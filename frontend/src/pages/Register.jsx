@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { LoginImg } from '../assets/assets'
 import axios from 'axios'
 
@@ -12,6 +12,8 @@ const Register = () => {
   const [errorMessage, setErrorMessage] = useState('')
 
   const [user, setUser] = useState({})
+
+  const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -26,11 +28,14 @@ const Register = () => {
       confirmPassword,
     }
 
-    axios.post('http://localhost:3000/register', userData).
+    axios.post(import.meta.env.VITE_API_URL + '/register', userData).
       then(response => {
-        localStorage.setItem('token', response.data.token);
-        setUser(response.data.user);
-        console.log(response)
+        if (response.status === 201) {
+          localStorage.setItem('token', response.data.token);
+          setUser(response.data.user);
+          console.log(response)
+          navigate('/dashboard')
+        }
       }).
       catch(error => {
         // console.error('error: ', error)
@@ -43,7 +48,7 @@ const Register = () => {
     setEmail('')
     setPassword('')
     setConfirmPassword('')
-    setErrors('')
+    setErrorMessage('')
 
   }
 
@@ -54,7 +59,7 @@ const Register = () => {
       <img className='hidden md:block md:w-1/3 lg:w-1/3' src={LoginImg} alt="" />
 
       <div className='w-full sm:w-2/3 md:w-2/5 lg:w-1/3  mx-3 h-fit py-10 px-3 sm:px-4 rounded-lg bg-white'>
-        <h2 className='text-3xl font-medium text-center mb-12 text-primary'>Register</h2>
+        <h2 className='text-3xl font-medium text-center mb-10 text-primary'>Register</h2>
 
         <form
           onSubmit={handleSubmit}
