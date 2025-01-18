@@ -31,7 +31,7 @@ const Login = () => {
     // Login api call
     axios.post(import.meta.env.VITE_API_URL + '/login', userData).
       then(response => {
-        console.log(response)
+        // console.log(response)
 
         if (response.status === 200) {
           localStorage.setItem('token', response.data.token);
