@@ -5,8 +5,11 @@ const userAuth = async (req, res, next) => {
   // --- Actions ---
   // get token from req headers or cookies
   // verify token
-  // if token is valid, set req.user to user object
-  // if token is invalid, return error message with status 401
+  // if token is valid, 
+  //    decode it and find the user
+  //    set req.user to user object
+  // if token is invalid, 
+  //    return error message with status 401
   // --- End Actions ---
 
   const token = req.cookies?.token || req.headers.authorization?.split(' ')[1];

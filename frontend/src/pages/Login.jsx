@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { LoginImg } from '../assets/assets'
 import axios from 'axios'
+import { UserDataContext } from '../context/UserContext.jsx'
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -9,7 +10,10 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
-  const [user, setUser] = useState({})
+  // const [user, setUser] = useState({})
+  const { setUserData } = useContext(UserDataContext)
+  // console.log(useContext(UserDataContext))
+
 
   const navigate = useNavigate()
 
@@ -31,8 +35,9 @@ const Login = () => {
 
         if (response.status === 200) {
           localStorage.setItem('token', response.data.token);
-          setUser(response.data.user);
+          // setUser(response.data.user);
           setIsLoading(false);
+          setUserData(response.data.user);
           navigate('/dashboard')
         }
       }).
