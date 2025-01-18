@@ -44,6 +44,7 @@ const registerUser = async (req, res) => {
   // console.log('hashedpassword', hashedPassword)
   const newUser = await UserModel.create({ firstname, lastname, email: email.toLowerCase(), password: hashedPassword })
   const token = newUser.generateAuthToken()
+  res.cookies('token', token)
 
   res.status(201).json({ user: newUser, token, message: 'User Created' });
 }
@@ -84,9 +85,22 @@ const loginUser = async (req, res) => {
   }
 
   const token = user.generateAuthToken()
+  res.cookie('token', token)
+
   res.status(200).json({ user, token, message: 'User Login' })
 }
 
+const logoutUser = (req, res) => {
+  // --- ACTIONS ---
+  // destroy user token
+  // --- END OF ACTIONS ---
+  res.clearCookie('token')
+  res.status(200).json({ message: 'User Logout' })
+}
+
+const userProfile = (req, res) => {
+  res.status(200).json({ user: req.user, message: 'User Profile' })
+}
 
 
-export { registerUser, loginUser }
+export { registerUser, loginUser, logoutUser, userProfile }

@@ -11,6 +11,8 @@ import Inventory from './pages/Inventory.jsx'
 import Purchases from './pages/Purchases.jsx'
 import Sales from './pages/Sales.jsx'
 import AppUnauthLayout from './pages/AppUnauthLayout.jsx'
+import Logout from './pages/Logout.jsx'
+import UserProtectedWrapper from './pages/UserProtectedWrapper.jsx'
 
 const router = createBrowserRouter([
   {
@@ -27,7 +29,7 @@ const router = createBrowserRouter([
     ]
   }, {
     path: '/',
-    element: <AppAuthLayout />,
+    element: <UserProtectedWrapper> <AppAuthLayout /> </UserProtectedWrapper>,
     children: [
       {
         path: '/dashboard',
@@ -46,7 +48,10 @@ const router = createBrowserRouter([
         element: <Customers />
       }
     ]
-  },
+  }, {
+    path: '/logout',
+    element: <Logout />
+  }
 ])
 
 const App = () => {
