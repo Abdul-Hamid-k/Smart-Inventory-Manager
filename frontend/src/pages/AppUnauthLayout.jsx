@@ -1,16 +1,38 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../components/Unauth/Header.jsx'
 import Footer from '../components/Unauth/Footer.jsx'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
+
+
 
 const AppUnauthLayout = () => {
+  const [isLoading, setIsLoading] = useState(true)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      navigate('/dashboard')
+    }
+    setIsLoading(false)
+  }, [])
 
   return (
-    <div className=' px-5 sm:px-[4%] pb-8 max-w-[80rem] mx-auto'>
-      <Header />
-      <Outlet />
-      {/* <Footer /> */}
-    </div>
+    <>
+      {
+        isLoading
+          ? <p className='w-full h-screen flex justify-center items-center'>Loading...</p>
+          : (
+            <div className=' px-5 sm:px-[4%] pb-8 max-w-[80rem] mx-auto'>
+
+              <Header />
+              <Outlet />
+              {/* <Footer /> */}
+            </div>
+          )
+      }
+    </>
+
   )
 }
 

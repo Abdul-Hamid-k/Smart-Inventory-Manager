@@ -37,7 +37,7 @@ const Register = () => {
         if (response.status === 201) {
           localStorage.setItem('token', response.data.token);
           setUser(response.data.user);
-          console.log(response)
+          // console.log(response)
           setIsLoading(false)
 
           navigate('/dashboard')
