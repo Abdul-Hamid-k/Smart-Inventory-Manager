@@ -17,7 +17,7 @@ const UserProtectedWrapper = ({ children }) => {
 
     axios.get(import.meta.env.VITE_API_URL + '/user-profile', { headers: { authorization: 'Bearer ' + token } })
       .then(res => {
-        console.log(res)
+        // console.log(res)
         if (res.status === 200) {
           setUserData(res.data.user)
           setIsLoading(false)

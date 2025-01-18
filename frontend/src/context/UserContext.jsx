@@ -4,10 +4,13 @@ const UserDataContext = createContext({})
 
 const UserContext = ({ children }) => {
   const [userData, setUserData] = useState({})
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const value = {
     userData,
     setUserData,
+    isMenuOpen,
+    setIsMenuOpen
   }
   return (
     <UserDataContext.Provider value={value}>
