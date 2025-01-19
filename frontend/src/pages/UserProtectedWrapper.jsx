@@ -7,6 +7,7 @@ const UserProtectedWrapper = ({ children }) => {
   const { userData, setUserData } = useContext(UserDataContext)
   const token = localStorage.getItem('token')
   const navigate = useNavigate()
+  console.log('userProtectedWrapper: ', token)
 
   const [isLoading, setIsLoading] = useState(true)
 
@@ -15,6 +16,7 @@ const UserProtectedWrapper = ({ children }) => {
       navigate('/login')
     }
 
+    // console.log(import.meta.env.VITE_API_URL + '/user-profile')
     axios.get(import.meta.env.VITE_API_URL + '/user-profile', { headers: { authorization: 'Bearer ' + token } })
       .then(res => {
         // console.log(res)
@@ -25,6 +27,7 @@ const UserProtectedWrapper = ({ children }) => {
 
       }).catch(err => {
         console.error(err)
+        localStorage.removeItem('token')
         navigate('/login')
         setIsLoading(false)
       })

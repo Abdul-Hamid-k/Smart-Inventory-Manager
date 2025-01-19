@@ -1,5 +1,6 @@
 import { validationResult } from "express-validator";
 import UserModel from "../models/user.model.js";
+// import { createAndConnectNewDB } from '../config/mongodb.config.js'
 
 const registerUser = async (req, res) => {
   // --- ACTIONS ---
@@ -14,7 +15,6 @@ const registerUser = async (req, res) => {
 
   const { firstname, lastname, email, password, confirmPassword } = req.body;
   // console.log(firstname, lastname, email, password, confirmPassword)
-
 
   // check if any field is empty
   if (!firstname || !email || !password || !confirmPassword) {
@@ -39,14 +39,46 @@ const registerUser = async (req, res) => {
     return res.status(400).json({ message: 'User already exists' });
   }
 
-
   const hashedPassword = await UserModel.hashPassword(password);
   // console.log('hashedpassword', hashedPassword)
-  const newUser = await UserModel.create({ firstname, lastname, email: email.toLowerCase(), password: hashedPassword })
-  const token = newUser.generateAuthToken()
-  res.cookies('token', token)
+  try {
+    var newUser = await UserModel.create(
+      {
+        firstname,
+        lastname,
+        email: email.toLowerCase(),
+        password: hashedPassword,
+        // userInstance: firstname
+      })
 
-  res.status(201).json({ user: newUser, token, message: 'User Created' });
+    // await UserModel.findByIdAndUpdate({ _id: newUser._id }, {
+    //   userInstance: `${newUser.firstname.replace(' ', '')}_${newUser._id}`
+    // })
+
+
+    // console.log('token ->', token)
+
+
+    //  ----------------------------------------------------------------
+    // Create new database for user and connect to it
+    // let newDatabaseName = newUser.firstname + '_' + newUser._id
+    // newDatabaseName = newDatabaseName.replace(' ', '')
+    // console.log("NewDataBaseName: ", newDatabaseName)
+    newUser = await UserModel.findOne().select('+password')
+
+    const token = newUser.generateAuthToken()
+    res.cookie('token', token)
+
+    // await createAndConnectNewDB(newDatabaseName, newUser)
+    //  ----------------------------------------------------------------
+
+
+    res.status(201).json({ user: newUser, token, message: 'User Created' });
+  } catch (err) {
+    console.error(err)
+    return res.status(500).json({ message: 'Already Registered', error: err });
+  }
+
 }
 
 const loginUser = async (req, res) => {

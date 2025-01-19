@@ -14,14 +14,12 @@ const Login = () => {
   const { setUserData } = useContext(UserDataContext)
   // console.log(useContext(UserDataContext))
 
-
   const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
     // console.log('Form submitted')
     // console.log( email, password)
-
     const userData = {
       email,
       password,
@@ -44,6 +42,8 @@ const Login = () => {
       catch(error => {
         // console.error('error: ', error)
         setErrorMessage(error.response.data.message)
+        setIsLoading(false)
+        navigate('/login')
       });
 
     // clear form inputs
