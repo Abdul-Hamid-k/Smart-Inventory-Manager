@@ -7,7 +7,7 @@ import UserRouter from './routers/user.router.js'
 import cors from 'cors'
 
 const app = express();
-connectDB()
+connectDB(process.env.MONGODB_URI_ADMIN)
 
 app.use(cors())
 app.use(express.json());

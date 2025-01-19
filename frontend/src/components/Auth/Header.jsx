@@ -10,7 +10,7 @@ const Header = () => {
   const { userData } = useContext(UserDataContext)
 
 
-  console.log(userData)
+  // console.log(userData)
 
 
   useGSAP(() => {
@@ -128,7 +128,7 @@ const Header = () => {
         {/* <img src="" alt="" /> */}
         <div id='user-icon' className="shrink-0 flex justify-center text-white font-medium items-center h-8 w-8  bg-primary rounded-full">
           <span className='leading-none'>
-            {userData.firstname[0].toUpperCase()}
+            {userData?.firstname[0].toUpperCase()}
           </span>
         </div>
 

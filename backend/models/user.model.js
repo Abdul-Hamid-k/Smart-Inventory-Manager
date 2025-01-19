@@ -27,6 +27,11 @@ const UserSchema = mongoose.Schema({
     minlength: [8, 'Password must be at least 8 characters long'],
     select: false // Exclude password from the output
   },
+  // userInstance: {
+  //   type: String,
+  //   unique: true,
+  //   required: true
+  // },
   created_at: {
     type: Date,
     default: Date.now
@@ -39,6 +44,7 @@ UserSchema.statics.hashPassword = async (password) => {
 
 UserSchema.methods.generateAuthToken = function () {
   const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET)
+  // const token = jwt.sign({ _id: this._id, userInstance: this.userInstance }, process.env.JWT_SECRET)
   return token
 }
 

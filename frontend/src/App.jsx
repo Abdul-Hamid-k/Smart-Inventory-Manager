@@ -20,6 +20,9 @@ const router = createBrowserRouter([
     element: <AppUnauthLayout />,
     children: [
       {
+        path: '/',
+        element: <Login />
+      }, {
         path: '/login',
         element: <Login />
       }, {
@@ -32,6 +35,9 @@ const router = createBrowserRouter([
     element: <UserProtectedWrapper> <AppAuthLayout /> </UserProtectedWrapper>,
     children: [
       {
+        path: '/',
+        element: <Dashboard />
+      }, {
         path: '/dashboard',
         element: <Dashboard />
       }, {

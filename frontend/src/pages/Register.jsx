@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, redirect, useNavigate } from 'react-router-dom'
 import { LoginImg } from '../assets/assets'
 import axios from 'axios'
 
@@ -32,22 +32,23 @@ const Register = () => {
 
     setIsLoading(true)
     // registration api call
-    axios.post(import.meta.env.VITE_API_URL + '/register', userData).
+    axios.post(import.meta.env.VITE_API_URL + '/register', userData). 
       then(response => {
+        // console.log('register responce, ', response)
         if (response.status === 201) {
           localStorage.setItem('token', response.data.token);
           setUser(response.data.user);
-          // console.log(response)
+          // console.log('registration token: ', response.data.token)
           setIsLoading(false)
-
           navigate('/dashboard')
         }
       }).
       catch(error => {
-        // console.error('error: ', error)
-        setErrorMessage(error.response.data.message)
+        console.error('error: ', error)
         setIsLoading(false)
-
+        navigate('/register')
+        setErrorMessage(error?.response.data.message)
+        localStorage.removeItem('token')
       });
 
     // clear form inputs
