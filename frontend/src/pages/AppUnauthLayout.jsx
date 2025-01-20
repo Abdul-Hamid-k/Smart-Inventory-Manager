@@ -23,7 +23,7 @@ const AppUnauthLayout = () => {
         isLoading
           ? <p className='w-full h-screen flex justify-center items-center'>Loading...</p>
           : (
-            <div className=' px-5 sm:px-[4%] pb-8 max-w-[80rem] mx-auto'>
+            <div className=' px-3 md:px-[2%] pb-8 max-w-[80rem] mx-auto'>
 
               <Header />
               <Outlet />

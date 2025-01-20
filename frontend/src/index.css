@@ -7,3 +7,19 @@ body {
 	background-color: #f0ead250;
 	min-height: 100vh;
 }
+
+/* width */
+::-webkit-scrollbar {
+	width: 4px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #e8905850;
+	border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #e89058;
+}

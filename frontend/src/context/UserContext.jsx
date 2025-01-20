@@ -5,12 +5,15 @@ const UserDataContext = createContext({})
 const UserContext = ({ children }) => {
   const [userData, setUserData] = useState({})
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [currency, setCurrency] = useState(import.meta.env.VITE_CURRENCY_SYMBOL)
 
   const value = {
     userData,
     setUserData,
     isMenuOpen,
-    setIsMenuOpen
+    setIsMenuOpen,
+    currency,
+    setCurrency
   }
   return (
     <UserDataContext.Provider value={value}>
