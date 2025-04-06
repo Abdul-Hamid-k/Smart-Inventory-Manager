@@ -68,9 +68,6 @@ const Purchases = () => {
     {/* TODO: filter handler */ }
   }
 
-
-  // !!TODO: Sidebar filter visibility on md screen size
-
   return (
     <div className='mt-4'>
       <h2 className='font-medium text-primary text-xl w-fit flex gap-3'>
@@ -80,7 +77,6 @@ const Purchases = () => {
 
       <div className={`grid grid-cols-4 gap-1 md:gap-3 mt-4 relative`}>
 
-        {/* TODO: Seperate Component */}
         {/* side menu */}
         <div ref={SideMenuRef} className={` transition-all translate-x-0 opacity-1 duration-100 rounded-e-md md:rounded-md bg-white/70 md:bg-transparent backdrop-blur-sm md:col-span-1 absolute md:static left-0 min-h-screen overflow-y-scroll px-5 md:px-2 lg:px-5 py-3`}>
 
@@ -117,9 +113,6 @@ const Purchases = () => {
           {/* Order Placed Card */}
           <SummaryCard icon={CartIcon} title={"Orders Placed"} value={25} />
         </div>
-
-
-
 
         <PurchaseBillsRecods
           currency={currency}

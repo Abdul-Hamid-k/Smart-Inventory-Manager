@@ -1,5 +1,4 @@
-import React, { useContext } from 'react'
-import { UserDataContext } from '../../../context/UserContext'
+import React from 'react'
 
 const PurchaseBillsRecods = ({ isBillsPanelOpen, currency }) => {
   return (
@@ -39,9 +38,6 @@ const PurchaseBillsRecods = ({ isBillsPanelOpen, currency }) => {
                   </div>
                 </div>
               ))}
-
-
-
 
             </div>
           </div>
