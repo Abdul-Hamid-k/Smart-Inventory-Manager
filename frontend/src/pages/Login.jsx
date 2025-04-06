@@ -91,7 +91,7 @@ const Login = () => {
 
               <button type='submit'
                 className='mt-10 w-auto rounded-lg text-white bg-primary px-5 py-3 text-lg font-medium mx-4'>
-                Register
+                Login
               </button>
             </form>
 
