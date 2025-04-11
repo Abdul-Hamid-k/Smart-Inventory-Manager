@@ -4,7 +4,7 @@ import { UserDataContext } from '../context/UserContext'
 import { useNavigate } from 'react-router-dom'
 
 const UserProtectedWrapper = ({ children }) => {
-  const { userData, setUserData } = useContext(UserDataContext)
+  const { setUserData } = useContext(UserDataContext)
   const token = localStorage.getItem('token')
   const navigate = useNavigate()
   // console.log('userProtectedWrapper: ', token)
@@ -17,6 +17,7 @@ const UserProtectedWrapper = ({ children }) => {
     }
 
     // console.log(import.meta.env.VITE_API_URL + '/user-profile')
+    console.log("token: ", token)
     axios.get(import.meta.env.VITE_API_URL + '/user-profile', { headers: { authorization: 'Bearer ' + token } })
       .then(res => {
         // console.log(res)

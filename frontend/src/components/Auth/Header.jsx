@@ -10,7 +10,7 @@ const Header = () => {
   const { userData } = useContext(UserDataContext)
 
 
-  // console.log(userData)
+  console.log("userData:", userData)
 
 
   useGSAP(() => {
