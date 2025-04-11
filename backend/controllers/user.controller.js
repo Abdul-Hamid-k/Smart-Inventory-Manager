@@ -121,6 +121,7 @@ const loginUser = async (req, res) => {
   if (!isMatch) {
     return res.status(401).json({ message: 'Invalid Credentials' })
   }
+  console.log("UserLogin1:", user)
 
   await connectDB(user.userInstance)
   const newUser = await UserModel.findOne({ email: email.toLowerCase() })

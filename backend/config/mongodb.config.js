@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import UserModel from '../models/user.model.js';
 
 const connectDB = async (database) => {
-  // await mongoose.disconnect().then('database disconnect...')
+  await mongoose.disconnect().then('database disconnect...')
   await mongoose.connect(process.env.MONGODB_URI + database).then(() => {
     console.log(mongoose.connection.db.databaseName + ' MongoDB connected...');
   }).catch(err => console.log("Error connecting to MongoDB", err))
