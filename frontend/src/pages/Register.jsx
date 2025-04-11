@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, redirect, useNavigate } from 'react-router-dom'
-import { LoginImg } from '../assets/assets'
+import assets from '../assets/assets'
 import axios from 'axios'
 
 const Register = () => {
@@ -32,7 +32,7 @@ const Register = () => {
 
     setIsLoading(true)
     // registration api call
-    axios.post(import.meta.env.VITE_API_URL + '/register', userData). 
+    axios.post(import.meta.env.VITE_API_URL + '/register', userData).
       then(response => {
         // console.log('register responce, ', response)
         if (response.status === 201) {
@@ -67,7 +67,7 @@ const Register = () => {
       {isLoading ? <p className='w-full h-full flex justify-center items-center'>Loading...</p> : (
 
         <>
-          <img className='hidden md:block md:w-1/3 lg:w-1/3' src={LoginImg} alt="" />
+          <img className='hidden md:block md:w-1/3 lg:w-1/3' src={assets.LoginImg} alt="" />
 
           <div className='w-full sm:w-2/3 md:w-2/5 lg:w-1/3  mx-3 h-fit py-10 px-3 sm:px-4 rounded-lg bg-white'>
             <h2 className='text-3xl font-medium text-center mb-10 text-primary'>Register</h2>

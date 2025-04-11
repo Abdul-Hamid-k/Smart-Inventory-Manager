@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { UserDataContext } from '../../context/UserContext'
 import { NavLink } from 'react-router-dom'
-import { BackIcon, HamburgerIcon } from '../../assets/assets'
+import assets from '../../assets/assets'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 
@@ -42,11 +42,11 @@ const Header = () => {
       <h2 className='font-medium text-primary text-lg cursor-pointer'>LogiStock</h2>
 
       {/* mobile screen */}
-      <div className={`${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}  duration-300 absolute top-0 left-0 bg-white/20 w-full h-full flex flex-col justify-center items-center gap-4 list-none text-xl backdrop-blur-md z-10`}>
+      <div className={`${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}  duration-300 absolute top-0 left-0 bg-white/20 w-full h-full flex flex-col justify-center items-center gap-8 list-none text-xl backdrop-blur-md z-10`}>
 
         <img
           onClick={() => setIsMenuOpen(false)}
-          src={BackIcon}
+          src={assets.BackIcon}
           alt="back icon"
           className='w-8 absolute top-5 right-5' />
 
@@ -80,7 +80,7 @@ const Header = () => {
             setIsMenuOpen(false)
           }}
           className={({ isActive }) => isActive ? 'text-primary font-medium' : 'relative inline-block after:block after:absolute after:rounded-full after:bg-primary after:h-[0.125rem] after:w-[1rem] hover:after:w-[95%] hover:after:transition-all hover:after:duration-300 after:duration-300'}>
-          Purchase
+          Purchases
         </NavLink>
 
         <NavLink to='/customers'
@@ -94,7 +94,7 @@ const Header = () => {
       </div>
 
       {/* laptop screen */}
-      <div className="hidden md:flex gap-4 list-none">
+      <div className="hidden md:flex gap-8 list-none">
         <NavLink to='/dashboard'
           className={({ isActive }) => isActive ? 'text-primary font-medium' : 'relative inline-block after:block after:absolute after:rounded-full after:bg-primary after:h-[0.125rem] after:w-[1rem] hover:after:w-[95%] hover:after:transition-all hover:after:duration-300 after:duration-300'}>
           Dashboard
@@ -112,7 +112,7 @@ const Header = () => {
 
         <NavLink to='/purchases'
           className={({ isActive }) => isActive ? 'text-primary font-medium' : 'relative inline-block after:block after:absolute after:rounded-full after:bg-primary after:h-[0.125rem] after:w-[1rem] hover:after:w-[95%] hover:after:transition-all hover:after:duration-300 after:duration-300'}>
-          Purchase
+          Purchases
         </NavLink>
 
         <NavLink to='/customers'
@@ -135,7 +135,7 @@ const Header = () => {
         <img
           id='hamburger-icon'
           onClick={() => setIsMenuOpen(true)}
-          src={HamburgerIcon}
+          src={assets.HamburgerIcon}
           alt="Hamburger Icon"
           className='block md:hidden w-8 ' />
       </div>

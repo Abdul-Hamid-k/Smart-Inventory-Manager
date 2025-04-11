@@ -7,7 +7,7 @@ const UserProtectedWrapper = ({ children }) => {
   const { userData, setUserData } = useContext(UserDataContext)
   const token = localStorage.getItem('token')
   const navigate = useNavigate()
-  console.log('userProtectedWrapper: ', token)
+  // console.log('userProtectedWrapper: ', token)
 
   const [isLoading, setIsLoading] = useState(true)
 

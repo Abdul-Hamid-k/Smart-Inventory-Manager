@@ -6,7 +6,7 @@ import { Outlet } from 'react-router-dom'
 const AppAuthLayout = () => {
 
   return (
-    <div className='px-5 sm:px-[4%] pb-8 max-w-[80rem] mx-auto'>
+    <div className='px-3 sm:px-[2%] lg:px-[4%] pb-8 max-w-[80rem] mx-auto'>
       <Header />
       <Outlet />
       <Footer />
