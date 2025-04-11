@@ -1,5 +1,6 @@
 import { validationResult } from "express-validator";
 import UserModel from "../models/user.model.js";
+import connectDB, { createAndConnectNewDB } from "../config/mongodb.config.js";
 // import { createAndConnectNewDB } from '../config/mongodb.config.js'
 
 const registerUser = async (req, res) => {
@@ -48,28 +49,33 @@ const registerUser = async (req, res) => {
         lastname,
         email: email.toLowerCase(),
         password: hashedPassword,
-        // userInstance: firstname
+        created_at: new Date()
       })
+    console.log("newUserRegister1", newUser)
 
-    // await UserModel.findByIdAndUpdate({ _id: newUser._id }, {
-    //   userInstance: `${newUser.firstname.replace(' ', '')}_${newUser._id}`
-    // })
+    let newDatabaseName = `${newUser.firstname.replace(' ', '')}_${newUser._id}`
 
+    await UserModel.findByIdAndUpdate(newUser._id, {
+      userInstance: newDatabaseName
+    })
 
     // console.log('token ->', token)
 
 
     //  ----------------------------------------------------------------
     // Create new database for user and connect to it
-    // let newDatabaseName = newUser.firstname + '_' + newUser._id
-    // newDatabaseName = newDatabaseName.replace(' ', '')
-    // console.log("NewDataBaseName: ", newDatabaseName)
-    newUser = await UserModel.findOne().select('+password')
 
-    const token = newUser.generateAuthToken()
+    console.log("NewDataBaseName: ", newDatabaseName)
+    newUser = await UserModel.findOne().select('+password')
+    console.log("newUserRegister1-updated", newUser)
+
+    await createAndConnectNewDB(newDatabaseName, newUser)
+    const newUser2 = await UserModel.findOne({ email: email.toLowerCase() })
+    console.log("newUserRegister2", newUser2)
+
+    const token = newUser2.generateAuthToken()
     res.cookie('token', token)
 
-    // await createAndConnectNewDB(newDatabaseName, newUser)
     //  ----------------------------------------------------------------
 
 
@@ -116,7 +122,11 @@ const loginUser = async (req, res) => {
     return res.status(401).json({ message: 'Invalid Credentials' })
   }
 
-  const token = user.generateAuthToken()
+  await connectDB(user.userInstance)
+  const newUser = await UserModel.findOne({ email: email.toLowerCase() })
+  console.log('userInstance:', newUser)
+
+  const token = newUser.generateAuthToken()
   res.cookie('token', token)
 
   res.status(200).json({ user, token, message: 'User Login' })

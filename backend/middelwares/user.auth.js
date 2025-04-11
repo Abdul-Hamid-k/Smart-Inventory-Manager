@@ -19,6 +19,8 @@ const userAuth = async (req, res, next) => {
 
   const token = req.cookies?.token || req.headers.authorization?.split(' ')[1];
   console.log('token - auth', token)
+  // console.log('token - cookie', req.cookies?.token)
+  // console.log('token - header', req.headers.authorization)
 
   if (!token) {
     return res.status(401).json({ message: 'Unautorised User - token not received' });
@@ -32,7 +34,8 @@ const userAuth = async (req, res, next) => {
     // console.log(userId)
 
     const user = await UserModel.findById({ _id: decode._id })
-    console.log('userAuth-user', user)
+    const users = await UserModel.find()
+    console.log('userAuth-users', users)
 
     if (!user) {
       return res.status(401).json({ message: 'Unautorised User - user not found' });
