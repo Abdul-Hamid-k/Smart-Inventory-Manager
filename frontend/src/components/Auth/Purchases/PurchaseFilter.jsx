@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { RefreshIcon } from '../../../assets/assets'
+import assets from '../../../assets/assets'
 
 const PurchaseFilter = (props) => {
   // props => currency, applyFilterHandler
@@ -24,7 +24,7 @@ const PurchaseFilter = (props) => {
         <div className="flex justify-between">
           <p className=' font-medium text-primary'>Filters</p>
           <img
-            src={RefreshIcon}
+            src={assets.RefreshIcon}
             alt="refresh-icon"
             className='w-6 fill-primary'
           />
@@ -55,7 +55,7 @@ const PurchaseFilter = (props) => {
             <input
               type="number"
               name='min-range'
-              placeholder='Max AmouisMnt'
+              placeholder='Max Amount'
               min={Number(minRange) + 10}
               value={maxRange}
               onChange={(e) => setMaxRange(e.target.value)}

@@ -6,11 +6,11 @@ const PurchaseBillsRecods = ({ isBillsPanelOpen, currency }) => {
       {isBillsPanelOpen && (
         <>
           {/* tables */}
-          < div className="col-span-4  md:col-span-3 bg-base/50  px-3 md:px-2 lg:px-5 py-3 rounded-md">
+          < div className="col-span-4 h-[calc(100vh)] md:col-span-3 bg-base/50  px-3 md:px-2 lg:px-5 py-3 rounded-md">
             <h2 className='font-medium text-primary w-fit flex gap-3'>
               Purchase Records
             </h2>
-            <div className='flex flex-col gap-3 mt-5 h-[calc(100vh-3rem)] overflow-y-scroll'>
+            <div className='flex flex-col gap-3 mt-5 h-[calc(100%-3rem)] overflow-y-scroll'>
               {/* Record */}
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item, index) => (
                 <div

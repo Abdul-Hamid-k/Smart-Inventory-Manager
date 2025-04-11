@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { UserDataContext } from '../../context/UserContext'
 import { NavLink } from 'react-router-dom'
-import { BackIcon, HamburgerIcon } from '../../assets/assets'
+import assets from '../../assets/assets'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 
@@ -46,7 +46,7 @@ const Header = () => {
 
         <img
           onClick={() => setIsMenuOpen(false)}
-          src={BackIcon}
+          src={assets.BackIcon}
           alt="back icon"
           className='w-8 absolute top-5 right-5' />
 
@@ -135,7 +135,7 @@ const Header = () => {
         <img
           id='hamburger-icon'
           onClick={() => setIsMenuOpen(true)}
-          src={HamburgerIcon}
+          src={assets.HamburgerIcon}
           alt="Hamburger Icon"
           className='block md:hidden w-8 ' />
       </div>
