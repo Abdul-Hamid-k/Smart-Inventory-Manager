@@ -9,6 +9,7 @@ import PurchaseBillsRecods from '../components/Auth/Purchases/PurchaseBillsRecod
 import PurchaseFilter from '../components/Auth/Purchases/PurchaseFilter'
 import SummaryCard from '../components/Auth/Common/SummaryCard'
 import PurchaseManualEntry from '../components/Auth/Purchases/PurchaseManualEntry'
+import PurchaseShopDetails from '../components/Auth/Purchases/PurchaseShopDetails'
 
 // ---- Actions ----
 // show filters sidebar
@@ -135,6 +136,12 @@ const Purchases = () => {
               <SummaryCard icon={assets.CartIcon} title={"Orders Placed"} value={25} />
             </>
           )}
+
+          {isManualEntryPanelOpen && (
+            <>
+              <PurchaseShopDetails />
+            </>
+          )}
         </div>
 
         {isBillsPanelOpen && (
@@ -144,7 +151,9 @@ const Purchases = () => {
         )}
 
         {isManualEntryPanelOpen && (
-          <PurchaseManualEntry currency={currency} />
+          <>
+            <PurchaseManualEntry currency={currency} />
+          </>
         )}
 
       </div>
