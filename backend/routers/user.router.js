@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import express from 'express';
-import { registerUser, loginUser, logoutUser, userProfile, AddMaualPurchaseBill } from '../controllers/user.controller.js';
+import { registerUser, loginUser, logoutUser, userProfile, AddMaualPurchaseBill, GetPurchaseBills } from '../controllers/user.controller.js';
 import { body } from 'express-validator';
 import userAuth from '../middelwares/user.auth.js';
 
@@ -42,5 +42,6 @@ router.post('/add-manual-purchase-bill', [
     .withMessage('Unit must be one of the following: ' + process.env.PRODUCTS_UNITS),
 ], userAuth, AddMaualPurchaseBill)
 
+router.get("/get-purchase-bills", userAuth, GetPurchaseBills)
 
 export default router

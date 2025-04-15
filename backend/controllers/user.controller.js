@@ -4,6 +4,7 @@ import connectDB, { createAndConnectNewDB } from "../config/mongodb.config.js";
 import addShop from "../services/addShop.service.js";
 import addPurchaseBill from "../services/addPurchaseBill.service.js";
 import addProduct from "../services/addProduct.service.js";
+import ShopModel from "../models/shop.model.js";
 // import { createAndConnectNewDB } from '../config/mongodb.config.js'
 
 const registerUser = async (req, res) => {
@@ -208,5 +209,15 @@ const AddMaualPurchaseBill = async (req, res) => {
 
 }
 
+const GetPurchaseBills = async (req, res) => {
+  try {
+    const purchaseBills = await ShopModel.find({}).populate('purchaseBills')
+    // console.log("PurchaseBills:", purchaseBills)
+    return res.status(200).json({ purchaseBills, message: 'Purchase bills fetched successfully' });
+  } catch (error) {
+    return res.status(400).json({ message: 'Error Fetching Purchase bills', error: error.message });
+  }
+}
 
-export { registerUser, loginUser, logoutUser, userProfile, AddMaualPurchaseBill }
+
+export { registerUser, loginUser, logoutUser, userProfile, AddMaualPurchaseBill, GetPurchaseBills }
