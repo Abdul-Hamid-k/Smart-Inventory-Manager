@@ -1,5 +1,8 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
-import { registerUser, loginUser, logoutUser, userProfile } from '../controllers/user.controller.js';
+import { registerUser, loginUser, logoutUser, userProfile, AddMaualPurchaseBill } from '../controllers/user.controller.js';
 import { body } from 'express-validator';
 import userAuth from '../middelwares/user.auth.js';
 
@@ -27,5 +30,17 @@ router.post(
 router.get('/logout', logoutUser)
 
 router.get('/user-profile', userAuth, userProfile)
+
+// purchase
+// console.log(process.env.PRODUCTS_UNITS)
+router.post('/add-manual-purchase-bill', [
+  body('purchaseBill').notEmpty().withMessage('Purchase bill is required'),
+  body('purchaseBill.shop').notEmpty().withMessage('Shop ID is required'),
+  body('purchaseBill.products').isArray().withMessage('Products should be an array'),
+  body('purchaseBill.products.*.quantity').isFloat({ gt: 0 }).withMessage('Product quantity should be more than 0'),
+  body('purchaseBill.products.*.unit').isIn(process.env.PRODUCTS_UNITS)
+    .withMessage('Unit must be one of the following: ' + process.env.PRODUCTS_UNITS),
+], userAuth, AddMaualPurchaseBill)
+
 
 export default router

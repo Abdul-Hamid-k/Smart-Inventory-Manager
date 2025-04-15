@@ -7,13 +7,13 @@ const PurchaseManualEntry = (props) => {
   const [name, setName] = useState('')
   const [category, setCategory] = useState('')
   const [quantity, setQuantity] = useState(0)
-  const [rate, setRate] = useState(0)
+  const [pricePerUnit, setPricePerUnit] = useState(0)
   const [amount, setAmount] = useState(0)
   const [totalAmount, setTotalAmount] = useState(0)
 
   useEffect(() => {
-    setAmount(quantity * rate)
-  }, [rate, quantity])
+    setAmount(quantity * pricePerUnit)
+  }, [pricePerUnit, quantity])
 
   const deleteItemFromBill = (indx) => {
     const newBills = bills.filter((item, index) => index !== indx)
@@ -22,7 +22,7 @@ const PurchaseManualEntry = (props) => {
   }
 
   const addItemToBill = () => {
-    if (name === '' || category === '' || quantity <= 0 || rate <= 0) {
+    if (name === '' || category === '' || quantity <= 0 || pricePerUnit <= 0) {
       alert('Please fill all the fields')
       return
     }
@@ -31,7 +31,7 @@ const PurchaseManualEntry = (props) => {
       name: name.toLowerCase(),
       category: category.toLowerCase(),
       quantity: quantity,
-      rate: rate,
+      pricePerUnit: pricePerUnit,
       amount: amount
     }
     setTotalAmount(totalAmount + amount)
@@ -41,7 +41,7 @@ const PurchaseManualEntry = (props) => {
     setName('')
     setCategory('')
     setQuantity(0)
-    setRate(0)
+    setPricePerUnit(0)
     setAmount(0)
   }
 
@@ -72,7 +72,7 @@ const PurchaseManualEntry = (props) => {
                 <td className='px-2 py-1 capitalize'>{item.name}</td>
                 <td className='px-2 py-1 capitalize'>{item.category}</td>
                 <td className='px-2 py-1'>{item.quantity}</td>
-                <td className='px-2 py-1'>{item.rate}</td>
+                <td className='px-2 py-1'>{item.pricePerUnit}</td>
                 <td className='px-2 py-1'>{props.currency} {item.amount}</td>
                 <img src={assets.DeleteIcon}
                   alt='delete icon'
@@ -87,7 +87,7 @@ const PurchaseManualEntry = (props) => {
               <td><input require className='w-full outline-none bg-transparent px-2 capitalize' value={name} onChange={(e) => setName(e.target.value)}></input></td>
               <td><input require className='w-full outline-none bg-transparent px-2 capitalize' value={category} onChange={(e) => setCategory(e.target.value)}></input></td>
               <td><input require className='w-full outline-none bg-transparent px-2' value={quantity} onChange={(e) => setQuantity(e.target.value)} type='number'></input></td>
-              <td><input require className='w-full outline-none bg-transparent px-2' value={rate} onChange={(e) => setRate(e.target.value)} type='number'></input></td>
+              <td><input require className='w-full outline-none bg-transparent px-2' value={pricePerUnit} onChange={(e) => setPricePerUnit(e.target.value)} type='number'></input></td>
               <td><input require className='w-full outline-none bg-transparent px-2' value={props.currency + ' ' + amount} disabled></input></td>
             </tr>
             <button className='absolute right-3 -bottom-8 bg-primary px-5 rounded-md font-medium text-white text-lg' onClick={addItemToBill}>Add Item</button>

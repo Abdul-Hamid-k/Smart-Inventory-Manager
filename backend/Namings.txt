@@ -1,0 +1,18 @@
+Purchase -> 
+  shopId
+  date
+  totalAmount
+  products: {
+    name
+    category
+    quantity
+    pricePerUnit
+    amount
+  }
+
+
+Shop -> 
+  shopName
+  address
+  contact
+  purchaseBills

@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
-
 const UserSchema = mongoose.Schema({
   firstname: {
     type: String,
@@ -42,8 +41,10 @@ UserSchema.statics.hashPassword = async (password) => {
 }
 
 UserSchema.methods.generateAuthToken = function () {
-  const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET)
-  // const token = jwt.sign({ _id: this._id, userInstance: this.userInstance }, process.env.JWT_SECRET)
+  console.log("UserId ", this.userInstance)
+  // const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET)
+
+  const token = jwt.sign({ _id: this._id, userInstance: this.userInstance, userID: this.userInstance.split('_')[this.userInstance.split('_').length - 1] }, process.env.JWT_SECRET)
   return token
 }
 

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import UserModel from "../models/user.model.js";
 import jwt from 'jsonwebtoken'
+import connectDB from "../config/mongodb.config.js";
 // import connectDB from "../config/mongodb.config.js";
 
 const userAuth = async (req, res, next) => {
@@ -18,7 +19,7 @@ const userAuth = async (req, res, next) => {
   // console.log('connected-db-auth', mongoose.connection.db.databaseName)
 
   const token = req.cookies?.token || req.headers.authorization?.split(' ')[1];
-  console.log('token - auth', token)
+  // console.log('token - auth', token)
   // console.log('token - cookie', req.cookies?.token)
   // console.log('token - header', req.headers.authorization)
 
@@ -33,9 +34,9 @@ const userAuth = async (req, res, next) => {
     // const userId = userDBName.split('_')[1]
     // console.log(userId)
 
-    const user = await UserModel.findById({ _id: decode._id })
-    const users = await UserModel.find()
-    console.log('userAuth-users', users)
+    const user = await UserModel.findById(decode.userID)
+    // const users = await UserModel.find()
+    // console.log('userAuth-users', users)
 
     if (!user) {
       return res.status(401).json({ message: 'Unautorised User - user not found' });
@@ -45,7 +46,7 @@ const userAuth = async (req, res, next) => {
     // console.log('current DB:', mongoose.connection.db.databaseName)
 
     req.user = user;
-    // connectDB(decode.userInstance)
+    await connectDB(decode.userInstance)
     next();
 
   } catch (e) {
