@@ -1,6 +1,9 @@
 import { validationResult } from "express-validator";
 import UserModel from "../models/user.model.js";
 import connectDB, { createAndConnectNewDB } from "../config/mongodb.config.js";
+import addShop from "../services/addShop.service.js";
+import addPurchaseBill from "../services/addPurchaseBill.service.js";
+import addProduct from "../services/addProduct.service.js";
 // import { createAndConnectNewDB } from '../config/mongodb.config.js'
 
 const registerUser = async (req, res) => {
@@ -66,10 +69,11 @@ const registerUser = async (req, res) => {
     // Create new database for user and connect to it
 
     console.log("NewDataBaseName: ", newDatabaseName)
-    newUser = await UserModel.findOne().select('+password')
+    newUser = await UserModel.findOne({ email: email.toLowerCase() }).select('+password')
     console.log("newUserRegister1-updated", newUser)
 
     await createAndConnectNewDB(newDatabaseName, newUser)
+    console.log(email.toLowerCase())
     const newUser2 = await UserModel.findOne({ email: email.toLowerCase() })
     console.log("newUserRegister2", newUser2)
 
@@ -145,5 +149,64 @@ const userProfile = (req, res) => {
   res.status(200).json({ user: req.user, message: 'User Profile' })
 }
 
+// Purchase ---------------------------
+const AddMaualPurchaseBill = async (req, res) => {
+  // --- ACTIONS ---
+  // get purchase bill from req body
+  // check if any field is empty
+  // check validation errors
+  // check if shop is already exist
+  // - if exist then skip
+  // - if not then create new shop
+  // create purchase bill include shop id
+  // update shop with purchase bill id
+  // check if product is already exist
+  // - if exist then add quantity
+  // - if not then create new product
+  // --- END OF ACTIONS ---
 
-export { registerUser, loginUser, logoutUser, userProfile }
+
+  const { purchaseBill } = req.body;
+  if (!purchaseBill) {
+    return res.status(400).json({ message: 'Purchase bill is required' });
+  }
+
+  // check validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ message: 'Input value Error', errors: errors.array() });
+  }
+
+  // console.log(purchaseBill)
+
+  try {
+    // add shop if not in db
+    const shop = await addShop(purchaseBill.shop)
+
+    // create purchase bill
+    const newPurchaseBill = await addPurchaseBill(shop._id, purchaseBill)
+    // console.log("PurchaseBill:", newPurchaseBill)
+
+    // update shop with purchase bill id
+    shop.purchaseBills.push(newPurchaseBill._id)
+    await shop.save()
+    // console.log("Shop:", shop)
+
+    // add products to db
+    for (const product of purchaseBill.products) {
+      // console.log("Product:", product)
+      const newProduct = await addProduct(product)
+      // console.log("NewProduct:", newProduct)
+    }
+
+
+  } catch (error) {
+    return res.status(400).json({ message: 'Error Adding Purchase bill', error: error.message });
+  }
+
+  return res.status(200).json({ message: 'Purchase bill added successfully' });
+
+}
+
+
+export { registerUser, loginUser, logoutUser, userProfile, AddMaualPurchaseBill }

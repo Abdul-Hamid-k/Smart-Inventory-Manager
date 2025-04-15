@@ -5,11 +5,13 @@ const PurchaseShopDetails = (props) => {
   const [shopName, setShopName] = useState('')
   const [contact, setContact] = useState('')
   const [address, setAddress] = useState('')
+  const [date, setDate] = useState('')
 
   const reset = () => {
     setShopName('')
     setContact('')
     setAddress('')
+    setDate('')
   }
 
 
