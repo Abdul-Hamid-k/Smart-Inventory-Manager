@@ -9,6 +9,39 @@ const PurchaseFilter = (props) => {
   const [dateRangeStart, setDateRangeStart] = useState('')
   const [dateRangeEnd, setDateRangeEnd] = useState('')
 
+  const reset = () => {
+    setMinRange('')
+    setMaxRange('')
+    setDateRangeStart('')
+    setDateRangeEnd('')
+  }
+
+  const filerHandler = (e) => {
+    e.preventDefault()
+
+    if (minRange && maxRange && dateRangeStart && dateRangeEnd) {
+      props.setRenderShopBills(props.selectedShop.purchaseBills.filter((bill) => {
+        return (bill.totalAmount >= Number(minRange) && bill.totalAmount <= Number(maxRange)) && (bill.date >= dateRangeStart && bill.date <= dateRangeEnd)
+      }))
+    }
+
+    else if (minRange && maxRange) {
+      // console.log(props.selectedShop.purchaseBills)
+      props.setRenderShopBills(props.selectedShop.purchaseBills.filter((bill) => {
+        return bill.totalAmount >= Number(minRange) && bill.totalAmount <= Number(maxRange)
+      }))
+    }
+
+    else if (dateRangeEnd && dateRangeStart) {
+      // console.log(props.selectedShop.purchaseBills)
+      props.setRenderShopBills(props.selectedShop.purchaseBills.filter((bill) => {
+        return bill.date >= dateRangeStart && bill.date <= dateRangeEnd
+      }))
+    }
+    console.log(props.renderShopBills)
+  }
+
+
 
   return (
     <>
@@ -27,11 +60,15 @@ const PurchaseFilter = (props) => {
             src={assets.RefreshIcon}
             alt="refresh-icon"
             className='w-6 fill-primary'
+            onClick={() => {
+              reset()
+              props.setRenderShopBills(props.selectedShop.purchaseBills)
+            }}
           />
         </div>
 
         <form
-          onSubmit={(e) => props.applyFilterHandler(e)}
+          onSubmit={(e) => filerHandler(e)}
           className='mt-2 flex flex-col gap-2'>
 
 
@@ -92,5 +129,6 @@ const PurchaseFilter = (props) => {
     </>
   )
 }
+
 
 export default PurchaseFilter

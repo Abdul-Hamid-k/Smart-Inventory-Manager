@@ -1,8 +1,10 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import assets from '../assets/assets'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
+
+import axios from 'axios'
 
 import { UserDataContext } from '../context/UserContext'
 import PurchaseBillsRecods from '../components/Auth/Purchases/PurchaseBillsRecods'
@@ -10,6 +12,8 @@ import PurchaseFilter from '../components/Auth/Purchases/PurchaseFilter'
 import SummaryCard from '../components/Auth/Common/SummaryCard'
 import PurchaseManualEntry from '../components/Auth/Purchases/PurchaseManualEntry'
 import PurchaseShopDetails from '../components/Auth/Purchases/PurchaseShopDetails'
+import PurchaseShopBillsRecord from '../components/Auth/Purchases/PurchaseShopBillsRecord'
+import PurchaseBill from '../components/Auth/Purchases/PurchaseBill'
 
 // ---- Actions ----
 // show filters sidebar
@@ -19,10 +23,32 @@ import PurchaseShopDetails from '../components/Auth/Purchases/PurchaseShopDetail
 const Purchases = () => {
   const [isManualEntryPanelOpen, setIsManualEntryPanelOpen] = useState(false)
   const [isBillsPanelOpen, setIsBillsPanelOpen] = useState(true)
+  const [isShopBillsPanelOpen, setIsShopBillsPanelOpen] = useState(false)
+  const [isBillOpen, setIsBillOpen] = useState(false)
   const [isSideMenu, setIsSideMenuOpen] = useState(false)
+  const [shopsBills, setshopsBills] = useState([])
+  const [selectedShop, setSelectedShop] = useState('')
+  const [selectedBill, setSelectedBill] = useState('')
+  const [renderShopBills, setRenderShopBills] = useState([])
 
   const { currency } = useContext(UserDataContext)
   const SideMenuRef = useRef()
+
+  useEffect(() => {
+    axios.get(`${import.meta.env.VITE_API_URL}/get-purchase-bills`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
+      // console.log(res)
+      setshopsBills(res.data.purchaseBills)
+    }).catch(err => {
+      console.error("Error fetching purcahse bills:", err)
+    })
+  }, [])
+
+
+
 
   useGSAP(() => {
 
@@ -64,10 +90,6 @@ const Purchases = () => {
 
   // console.log(isSideMenu)
 
-  const applyFilterHandler = (e) => {
-    e.preventDefault()
-    {/* TODO: filter handler */ }
-  }
 
   return (
     <div className='mt-4'>
@@ -110,6 +132,7 @@ const Purchases = () => {
           <div
             onClick={() => {
               setIsManualEntryPanelOpen(false)
+              setIsShopBillsPanelOpen(false)
               setIsBillsPanelOpen(true)
             }}
             className="relative mt-3 flex gap-3 items-center cursor-pointer bg-white w-full h-fit px-6 md:px-4 lg-px-6 py-3 rounded-lg">
@@ -128,12 +151,12 @@ const Purchases = () => {
           {isBillsPanelOpen && (
             <>
               {/* Purchase range and date filter */}
-              < PurchaseFilter currency={currency}
-                applyFilterHandler={applyFilterHandler} />
+              {/* < PurchaseFilter currency={currency}
+                /> */}
 
 
-              {/* Order Placed Card */}
-              <SummaryCard icon={assets.CartIcon} title={"Orders Placed"} value={25} />
+              {/* Shop Card */}
+              <SummaryCard icon={assets.CartIcon} title={"Shops"} value={shopsBills.length} />
             </>
           )}
 
@@ -142,11 +165,31 @@ const Purchases = () => {
               <PurchaseShopDetails />
             </>
           )}
+
+          {isShopBillsPanelOpen && (
+            <>
+              {/* Purchase range and date filter */}
+              < PurchaseFilter
+                renderShopBills={renderShopBills}
+                setRenderShopBills={setRenderShopBills}
+                currency={currency}
+                selectedShop={selectedShop}
+              />
+
+
+              {/* Shop Card */}
+              <SummaryCard icon={assets.CartIcon} title={"Order Placed"} value={selectedShop.purchaseBills.length} />
+            </>
+          )}
         </div>
 
         {isBillsPanelOpen && (
           <PurchaseBillsRecods
-            currency={currency}
+            shopsBills={shopsBills}
+            setSelectedShop={setSelectedShop}
+            setRenderShopBills={setRenderShopBills}
+            setIsShopBillsPanelOpen={setIsShopBillsPanelOpen}
+            setIsBillsPanelOpen={setIsBillsPanelOpen}
             isBillsPanelOpen={isBillsPanelOpen} />
         )}
 
@@ -154,6 +197,28 @@ const Purchases = () => {
           <>
             <PurchaseManualEntry currency={currency} />
           </>
+        )}
+
+        {isShopBillsPanelOpen && (
+          <PurchaseShopBillsRecord
+            currency={currency}
+            setSelectedBill={setSelectedBill}
+            renderShopBills={renderShopBills}
+            setIsBillOpen={setIsBillOpen}
+            selectedShop={selectedShop}
+            setIsBillsPanelOpen={setIsBillsPanelOpen}
+            isShopBillsPanelOpen={isShopBillsPanelOpen}
+            setIsShopBillsPanelOpen={setIsShopBillsPanelOpen} />
+        )}
+
+        {isBillOpen && (
+          <PurchaseBill
+            currency={currency}
+            setIsBillOpen={setIsBillOpen}
+            selectedShop={selectedShop}
+            setIsShopBillsPanelOpen={setIsShopBillsPanelOpen}
+            setIsBillsPanelOpen={setIsBillsPanelOpen}
+            selectedBill={selectedBill} />
         )}
 
       </div>

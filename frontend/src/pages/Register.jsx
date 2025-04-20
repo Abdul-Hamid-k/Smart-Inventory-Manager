@@ -34,7 +34,7 @@ const Register = () => {
     // registration api call
     axios.post(import.meta.env.VITE_API_URL + '/register', userData).
       then(response => {
-        // console.log('register responce, ', response)
+        console.log('register responce, ', response)
         if (response.status === 201) {
           localStorage.setItem('token', response.data.token);
           setUser(response.data.user);

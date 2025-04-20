@@ -34,9 +34,10 @@ const userAuth = async (req, res, next) => {
     // const userId = userDBName.split('_')[1]
     // console.log(userId)
 
-    const user = await UserModel.findById(decode.userID)
-    // const users = await UserModel.find()
-    // console.log('userAuth-users', users)
+    const user = await UserModel.findById(decode._id)
+    const users = await UserModel.find()
+    console.log('userAuth-users', users)
+    console.log('userAuth-user', user)
 
     if (!user) {
       return res.status(401).json({ message: 'Unautorised User - user not found' });

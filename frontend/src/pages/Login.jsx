@@ -40,7 +40,7 @@ const Login = () => {
         }
       }).
       catch(error => {
-        // console.error('error: ', error)
+        console.error('error: ', error)
         setErrorMessage(error.response.data.message)
         setIsLoading(false)
         navigate('/login')

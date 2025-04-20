@@ -111,12 +111,14 @@ const loginUser = async (req, res) => {
 
   // check if user exist
   const user = await UserModel.findOne({ email: email.toLowerCase() }).select('+password')
+  console.log("UserLogin:", user)
   if (!user) {
     return res.status(401).json({ message: 'Invalid credentials' });
   }
 
   // check validation errors
   const errors = validationResult(req)
+
   if (!errors.isEmpty()) {
     return res.status(400).json({ message: 'Invalid Credentials', errors: errors.array() });
   }
