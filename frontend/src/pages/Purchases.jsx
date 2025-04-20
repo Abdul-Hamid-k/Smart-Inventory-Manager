@@ -14,6 +14,7 @@ import PurchaseManualEntry from '../components/Auth/Purchases/PurchaseManualEntr
 import PurchaseShopDetails from '../components/Auth/Purchases/PurchaseShopDetails'
 import PurchaseShopBillsRecord from '../components/Auth/Purchases/PurchaseShopBillsRecord'
 import PurchaseBill from '../components/Auth/Purchases/PurchaseBill'
+import DetailsCard from '../components/Auth/Common/DetailsCard'
 
 // ---- Actions ----
 // show filters sidebar
@@ -153,8 +154,6 @@ const Purchases = () => {
               {/* Purchase range and date filter */}
               {/* < PurchaseFilter currency={currency}
                 /> */}
-
-
               {/* Shop Card */}
               <SummaryCard icon={assets.CartIcon} title={"Shops"} value={shopsBills.length} />
             </>
@@ -181,6 +180,20 @@ const Purchases = () => {
               <SummaryCard icon={assets.CartIcon} title={"Order Placed"} value={selectedShop.purchaseBills.length} />
             </>
           )}
+
+          {isBillOpen && (
+            <>
+              <DetailsCard
+                cardTitle={"Bill Details"}
+                details={[
+                  { title: "Date", value: selectedBill.date },
+                  { title: "Shop Name", value: selectedShop.shopName },
+                  { title: "Contact", value: selectedShop.contact },
+                  { title: "Address", value: selectedShop.address },
+                ]} />
+            </>
+          )}
+
         </div>
 
         {isBillsPanelOpen && (

@@ -55,7 +55,7 @@ const PurchaseFilter = (props) => {
 
 
         <div className="flex justify-between">
-          <p className=' font-medium text-primary'>Filters</p>
+          <p className=' font-medium text-primary my-1.5'>Filters</p>
           <img
             src={assets.RefreshIcon}
             alt="refresh-icon"
